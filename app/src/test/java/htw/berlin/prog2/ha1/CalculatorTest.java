@@ -105,5 +105,28 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    @DisplayName("should display error when inverting zero")
+    void testInversionOfZero() {
+        Calculator calc = new Calculator();
+        calc.pressDigitKey(0);
+        calc.pressUnaryOperationKey("1/x");
+        assertEquals("Error", calc.readScreen()); // 1/x mit 0 -> error
+    }
+
+    @Test
+    @DisplayName("should repeat last operation when pressing equals multiple times")
+    void testRepeatEqualsOperation() {
+        Calculator calc = new Calculator();
+
+        // Berechnung: 5 + 3 = 8, dann nochmal +3 = 11
+        calc.pressDigitKey(5);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(3);
+        calc.pressEqualsKey();  // 5 + 3 = 8
+        calc.pressEqualsKey();  // 8 + 3 = 11 (erwartet)
+
+        assertEquals("11", calc.readScreen()); // Aktuell vermutlich fehlgeschlagen
+    }
 }
 
