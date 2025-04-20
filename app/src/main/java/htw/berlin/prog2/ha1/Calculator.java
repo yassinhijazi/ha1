@@ -77,13 +77,7 @@ public class Calculator {
         var result = switch(operation) {
             case "√" -> Math.sqrt(Double.parseDouble(screen));
             case "%" -> Double.parseDouble(screen) / 100;
-            case "1/x" -> {
-                if (Double.parseDouble(screen) == 0) {
-                    screen = "Error";
-                    yield Double.NaN; // Fallback, wird nicht verwendet
-                }
-                yield 1 / Double.parseDouble(screen);
-            }
+            case "1/x" -> 1 / Double.parseDouble(screen);
             default -> throw new IllegalArgumentException();
         };
         screen = Double.toString(result);
@@ -124,27 +118,16 @@ public class Calculator {
      * und das Ergebnis direkt angezeigt.
      */
     public void pressEqualsKey() {
-        if (latestOperation.isEmpty()) return;
-
-        double currentValue = Double.parseDouble(screen);
-        double result = switch(latestOperation) {
-            case "+" -> latestValue + currentValue;
-            case "-" -> latestValue - currentValue;
-            case "x" -> latestValue * currentValue;
-            case "/" -> latestValue / currentValue;
+        var result = switch(latestOperation) {
+            case "+" -> latestValue + Double.parseDouble(screen);
+            case "-" -> latestValue - Double.parseDouble(screen);
+            case "x" -> latestValue * Double.parseDouble(screen);
+            case "/" -> latestValue / Double.parseDouble(screen);
             default -> throw new IllegalArgumentException();
         };
-
-        // Wichtig: Speichere das ERGEBNIS für die nächste Operation
-        latestValue = result;
         screen = Double.toString(result);
-
-        if (screen.equals("Infinity") || screen.equals("NaN")) {
-            screen = "Error";
-        } else if (screen.endsWith(".0")) {
-            screen = screen.substring(0, screen.length() - 2);
-        } else if (screen.contains(".") && screen.length() > 11) {
-            screen = screen.substring(0, 10);
-        }
+        if(screen.equals("Infinity")) screen = "Error";
+        if(screen.endsWith(".0")) screen = screen.substring(0,screen.length()-2);
+        if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
     }
 }
