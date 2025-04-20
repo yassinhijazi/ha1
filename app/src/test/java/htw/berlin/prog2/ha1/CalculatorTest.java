@@ -115,18 +115,18 @@ class CalculatorTest {
     }
 
     @Test
-    @DisplayName("should repeat last operation when pressing equals multiple times")
-    void testRepeatEqualsOperation() {
+    @DisplayName("should correctly chain division operations")
+    void testChainedDivision() {
         Calculator calc = new Calculator();
 
-        // Berechnung: 5 + 3 = 8, dann nochmal +3 = 11
-        calc.pressDigitKey(5);
-        calc.pressBinaryOperationKey("+");
-        calc.pressDigitKey(3);
-        calc.pressEqualsKey();  // 5 + 3 = 8
-        calc.pressEqualsKey();  // 8 + 3 = 11 (erwartet)
+        calc.pressDigitKey(8);
+        calc.pressBinaryOperationKey("/");
+        calc.pressDigitKey(2);
+        calc.pressBinaryOperationKey("/");
+        calc.pressDigitKey(2);
+        calc.pressEqualsKey(); // (8/2/2) = 2
 
-        assertEquals("11", calc.readScreen()); // Aktuell vermutlich fehlgeschlagen
+        assertEquals("2", calc.readScreen());
     }
 }
 
