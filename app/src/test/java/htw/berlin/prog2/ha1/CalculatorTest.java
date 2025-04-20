@@ -111,7 +111,7 @@ class CalculatorTest {
         Calculator calc = new Calculator();
         calc.pressDigitKey(0);
         calc.pressUnaryOperationKey("1/x");
-        assertEquals("Error", calc.readScreen()); // 1/x mit 0 -> error
+        assertEquals("Error", calc.readScreen()); // 1/x mit  0 -> error
     }
 
     @Test
